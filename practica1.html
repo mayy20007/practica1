@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Matemática</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calculator {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    input[type="number"], input[type="text"], button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .result {
+      margin-top: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      color: #2ecc71;
+    }
+
+    .error {
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <h2>Calculadora Matemática</h2>
+
+    <input type="number" id="num1" placeholder="Número 1">
+    <input type="number" id="num2" placeholder="Número 2">
+    
+    <button onclick="sumar()">Suma</button>
+    <button onclick="restar()">Resta</button>
+    <button onclick="multiplicar()">Multiplicación</button>
+    <button onclick="dividir()">División</button>
+    
+    <h3>Operación Completa</h3>
+    <input type="text" id="expresion" placeholder="Ingresa expresión (ej. 3+5*2)">
+    <button onclick="evaluarOperacion()">Evaluar Expresión</button>
+
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    function obtenerNumeros() {
+      const num1 = parseFloat(document.getElementById('num1').value);
+      const num2 = parseFloat(document.getElementById('num2').value);
+      return { num1, num2 };
+    }
+
+    function mostrarResultado(resultado, esError = false) {
+      const resultDiv = document.getElementById('result');
+      if (esError) {
+        resultDiv.innerHTML = `<span class="error">${resultado}</span>`;
+      } else {
+        resultDiv.innerHTML = `Resultado: ${resultado}`;
+      }
+    }
+
+    function sumar() {
+      const { num1, num2 } = obtenerNumeros();
+      if (isNaN(num1) || isNaN(num2)) {
+        mostrarResultado("Por favor, ingresa ambos números.", true);
+      } else {
+        mostrarResultado(num1 + num2);
+      }
+    }
+
+    function restar() {
+      const { num1, num2 } = obtenerNumeros();
+      if (isNaN(num1) || isNaN(num2)) {
+        mostrarResultado("Por favor, ingresa ambos números.", true);
+      } else {
+        mostrarResultado(num1 - num2);
+      }
+    }
+
+    function multiplicar() {
+      const { num1, num2 } = obtenerNumeros();
+      if (isNaN(num1) || isNaN(num2)) {
+        mostrarResultado("Por favor, ingresa ambos números.", true);
+      } else {
+        mostrarResultado(num1 * num2);
+      }
+    }
+
+    function dividir() {
+      const { num1, num2 } = obtenerNumeros();
+      if (isNaN(num1) || isNaN(num2)) {
+        mostrarResultado("Por favor, ingresa ambos números.", true);
+      } else if (num2 === 0) {
+        mostrarResultado("Error: No se puede dividir entre cero.", true);
+      } else {
+        mostrarResultado(num1 / num2);
+      }
+    }
+
+    function evaluarOperacion() {
+      const expresion = document.getElementById('expresion').value;
+      try {
+        // Evaluamos la expresión matemáticas de acuerdo a PEMDAS
+        const resultado = eval(expresion);
+        if (isNaN(resultado)) {
+          mostrarResultado("Error: Resultado no válido.", true);
+        } else {
+          mostrarResultado(resultado);
+        }
+      } catch (e) {
+        mostrarResultado("Error en la expresión, asegúrate de usar una operación válida.", true);
+      }
+    }
+  </script>
+
+</body>
+</html>
